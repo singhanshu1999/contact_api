@@ -1,29 +1,49 @@
+const asyncHandler = require("express-async-handler");
 //@desc Get all contacts
-//@route Get /api/contacts
+//@route GET /api/contacts
 //@access public
-const getContact = async (req, res) => {
-  res.json({ message: "get all contacts" });
-};
+const getContacts = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: "get all contacts" });
+});
 
 //@desc Create new contacts
-//@route Create /api/contacts
+//@route POST /api/contacts
 //@access public
-const createContact = async (req, res) => {
-  res.json({ message: "create new contacts" });
-};
+const createContact = asyncHandler(async (req, res) => {
+  console.log("The request body is:", req.body);
+  const { name, email, phone } = req.body;
+  if (!name || !email || !phone) {
+    res.status(400);
+    throw new Error("All fields are manadatory!");
+  }
+  res.status(201).json({ message: "create new contacts" });
+});
+
+//@desc Get contacts
+//@route GET /api/contacts/:id
+//@access public
+const getContact = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: `get contacts for ${req.params.id}` });
+});
 
 //@desc Update contacts
-//@route Update /api/contacts
+//@route PUT /api/contacts/:id
 //@access public
-const updateContact = async (req, res) => {
-  res.json({ message: "update contacts by id" });
-};
+const updateContact = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: `update contacts for ${req.params.id}` });
+});
 
 //@desc Delete contacts
-//@route Delete /api/contacts
+//@route DELETE /api/contacts/:id
 //@access public
-const deleteContact = async (req, res) => {
-  res.json({ message: "delete contacts by id" });
-};
+const deleteContact = asyncHandler(async (req, res) => {
+  res.status(200).json({ message: `delete contacts for ${req.params.id}` });
+});
 
-module.exports = { getContact, createContact };
+module.exports = {
+  getContacts,
+  createContact,
+  getContact,
+  updateContact,
+  deleteContact,
+};
