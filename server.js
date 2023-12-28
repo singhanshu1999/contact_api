@@ -1,7 +1,9 @@
 const express = require("express");
 const contactApi = require("./routes/contactsRoute");
 const errorHandler = require("./middleware/errorHandler");
+const connectDb = require("./config/dbConnection");
 
+connectDb();
 const app = express();
 
 const port = 3000;
